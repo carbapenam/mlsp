@@ -16,10 +16,10 @@
 	$P(B \mid M)  = \frac{P(M \mid B) P(B)}{P(M)} = \frac{90\% * 0.7\%}{98\%} = \mathbf{0.6\%}$
 
 \section {Problem 3}
-	\subsection{} % 3.1
+	\subsection{Matrix Version} % 3.1
 		\subsubsection{} % 3.1.a
 		\subsubsection{} % 3.1.b
-	\subsection{} % 3.2
+	\subsection{4D Tensor Version} % 3.2
 		\subsubsection{} % 3.2.a
 		We start with a 4D tensor with dimension of M X N 3 X K. Let's name this img. 
 		We'll begin our series of operations with applying vec() on our tensor.\\
@@ -28,15 +28,36 @@
 		\matr{A} = vec(img)
 		\end{equation*}
 
-		Now vec(img) is going to return a A, a matrix of size (M X N X 3) by K. We are going to multiply this with K by 1 column vector. 
+		Now vec(img) is going to return a A, a matrix of size (M X N X 3) by K. We are going to multiply this with 3 by 1 column vector of 1s. 
 		This would return sum of all images at their respective pixel and channel.
 
 		\begin{equation*}
-		\matr{M_{RGB}} = A * 
+		\matr{V_{RGB}} = \matr{A} * 
 						\begin{bmatrix} 
-						1 \\  ... \\ 1  
-						\end{bmatrix}_{K \times 1} 
+						1 \\ 1 \\ 1  
+						\end{bmatrix} 
 		\end{equation*}	
-		 
+		
+		So now we have $\matr{V_{RGB}}$ which is a sum of all images at their respectivel pixel and channel. We need to reshape this so that
+		we have (M X N) by 3 matrix. This matrix would have M x N image but color-sorted in each column.  
+		We can then multiply by a column vector of 1s similar to what we did before to sum up each pixel over all color channels. \\
+		\\
+		We'll do this by using vec-transpose and then multiplying by a column of 1s with size of 3 by 1
+
+		\begin{equation*}
+		\matr{V_{Greyscale}} = \matr{V_{RGB}} * 
+						\begin{bmatrix} 
+						1 \\ 1 \\ 1  
+						\end{bmatrix} 
+		\end{equation*}	
+
+		Now we have a (M X N) column vector with each pixel summed over all images and color. We need to divide this by 3 * K to get the mean
+		image.
+
+		\begin{equation*}
+		\matr{V_{\mu}} = \matr{V_{Greyscale}} / (3*K) 
+		\end{equation*}	
+
+		We are done.
 		\subsubsection{} % 3.2.b
 \end{document}
