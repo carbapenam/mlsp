@@ -4,7 +4,7 @@
 
 \begin{document}
 \pagenumbering{arabic}
-\section{Problem 1}
+\section{Simple? Matrix Problems}
 	\subsection{} % 1.a
 	This would only work in a column vector with a same size. Let's say it's a size-N vector.
 
@@ -21,7 +21,7 @@
 	\end{equation*}	
 
 	\subsection{} % 1.c
-	Since positive semidefinite matrices have non-negative diagnoal entries, which our matrix does have, X^{T}X 
+	Since positive semidefinite matrices have non-negative diagnoal entries, which our matrix does have, $X^{T}X$ 
 	is positive semidefinite.
 
 \section {Problem 2}
@@ -87,5 +87,36 @@
 		
 		But we'll transpose the matrix, so all the red channel would be on one column. Blue on other and so on. 
 		
+\section{This problem was pop}
+	We are given a vector X and we are supposed to come up with a matrix that when multiplied that returns a vec-operated coefficient matrix.\\
+	Here are three things that we have to do:\\
+	\\
+	1. We have to do calculate coefficients of 1024 samples\\
+	2. We have to hop 512 samples\\
+	3. We need to apply a Hann Window\\
+	\\
+	Let's do 1 and 2 at the same time and then do 3.
+
+	\subsection{Calculate and Hop}
+		We have a column vector of sample and to accomplish 1 and 2, we are gonna have a matrix that's gonna look something like this.
+		
+		\begin{equation*}
+		\begin{bmatrix} 
+		e^{\frac{-2 \pi j*0*0}{1024}} e^{\frac{-2 \pi j*0*1}{1024}} ... \ e^{\frac{-2 \pi j*0*1023}{1024}} 0 \ 0 \ .. \ 0 \\
+		e^{\frac{-2 \pi j*1*0}{1024}} e^{\frac{-2 \pi j*1*1}{1024}} ... \ e^{\frac{-2 \pi j*1*1023}{1024}} 0 \ 0 \ .. \ 0 \\
+		e^{\frac{-2 \pi j*1023*0}{1024}} e^{\frac{-2 \pi j*1023*1}{1024}} ... \ e^{\frac{-2 \pi j*1023*1023}{1024}} 0 \ 0 \ .. \ 0 \\
+		...\\
+		0_{0} \ 0_{1} \ .. 0_{511} \ e^{\frac{-2 \pi j*0*0}{1024}} e^{\frac{-2 \pi j*0*1}{1024}} ... \ e^{\frac{-2 \pi j*0*1023}{1024}} \ 0 \ 0 \ .. \ 0 \\
+		0_{0} \ 0_{1} \ .. 0_{511} \ e^{\frac{-2 \pi j*1*0}{1024}} e^{\frac{-2 \pi j*1*1}{1024}} ... \ e^{\frac{-2 \pi j*1*1023}{1024}} \ 0 \ 0 \ .. \ 0 \\
+		0_{0} \ 0_{1} \ .. 0_{511} \ e^{\frac{-2 \pi j*1023*0}{1024}} e^{\frac{-2 \pi j*1023*1}{1024}} ... \ e^{\frac{-2 \pi j*1023*1023}{1024}} \ 0 \ 0 \ .. \ 0 \\
+		...\\
+		0 \ 0 \ .. \ 0 \ e^{\frac{-2 \pi j*0*0}{1024}} e^{\frac{-2 \pi j*0*1}{1024}} ... \ e^{\frac{-2 \pi j*0*1023}{1024}}\\
+		0 \ 0 \ .. \ 0 \ e^{\frac{-2 \pi j*1*0}{1024}} e^{\frac{-2 \pi j*1*1}{1024}} ... \ e^{\frac{-2 \pi j*1*1023}{1024}}\\
+		0 \ 0 \ .. \ 0 \ e^{\frac{-2 \pi j*1023*0}{1024}} e^{\frac{-2 \pi j*1023*1}{1024}} ... \ e^{\frac{-2 \pi j*1023*1023}{1024}}\\
+		\end{bmatrix}
+		\end{equation*}	
+		
+
+	
 				
 		\end{document}
