@@ -34,8 +34,21 @@
 	\subsection{Matrix Version} % 3.1
 		\subsubsection{} % 3.1.a
 
-		\subsubsection{} % 3.1.b
+		We start with a (M x N) by K matrix. Let's define few things:\\
+		- $\matr{1_{n}}$ is a column vector with a size of n.\\
+		- Our image matrix is called $\matr{img}$\\
+		\\
+		The following operation would get the mean image in M by N format:\\	
+		\begin{equation*}
+		\frac{(\matr{img}*\matr{1_{K}})^{\{M\}}}{K}
+		\end{equation*}
+		\\
+		Multiplying the matrix of column image vectors with column of 1s would result in a summation of each image.
+		Reshaping this sum would result in M by N image and dividing by K would return a mean image.
+		\\
 
+		\subsubsection{The hard one} % 3.1.b
+		
 	\subsection{4D Tensor Version} % 3.2
 		\subsubsection{} % 3.2.a
 		We start with a 4D tensor with dimension of M X N 3 X K. Let's name this img. 
@@ -98,23 +111,27 @@
 	Let's do 1 and 2 at the same time and then do 3.
 
 	\subsection{Calculate and Hop}
-		We have a column vector of sample and to accomplish 1 and 2, we are gonna have a matrix that's gonna look something like this.
-		
+		We have a column vector of sample. Let's define our DFT vector as follows.
+		Let's assume that, for now, the sample is greater than 1024 and 
+
+		\begin{equation*}
+		\matr{DFT_{k}} = 		
+		\begin{bmatrix}	
+		e^{\frac{-2 \pi j*0*k}{N}} e^{\frac{-2 \pi j*1*k}{N}} ... \ e^{\frac{-2 \pi j*N-1*k}{1024}}
+		\end{bmatrix}	
+		\end{equation*}	
+
+		Then, our matrix is going to look like this.
+	
 		\begin{equation*}
 		\begin{bmatrix} 
-		e^{\frac{-2 \pi j*0*0}{1024}} e^{\frac{-2 \pi j*0*1}{1024}} ... \ e^{\frac{-2 \pi j*0*1023}{1024}} 0 \ 0 \ .. \ 0 \\
-		e^{\frac{-2 \pi j*1*0}{1024}} e^{\frac{-2 \pi j*1*1}{1024}} ... \ e^{\frac{-2 \pi j*1*1023}{1024}} 0 \ 0 \ .. \ 0 \\
-		e^{\frac{-2 \pi j*1023*0}{1024}} e^{\frac{-2 \pi j*1023*1}{1024}} ... \ e^{\frac{-2 \pi j*1023*1023}{1024}} 0 \ 0 \ .. \ 0 \\
-		...\\
-		0_{0} \ 0_{1} \ .. 0_{511} \ e^{\frac{-2 \pi j*0*0}{1024}} e^{\frac{-2 \pi j*0*1}{1024}} ... \ e^{\frac{-2 \pi j*0*1023}{1024}} \ 0 \ 0 \ .. \ 0 \\
-		0_{0} \ 0_{1} \ .. 0_{511} \ e^{\frac{-2 \pi j*1*0}{1024}} e^{\frac{-2 \pi j*1*1}{1024}} ... \ e^{\frac{-2 \pi j*1*1023}{1024}} \ 0 \ 0 \ .. \ 0 \\
-		0_{0} \ 0_{1} \ .. 0_{511} \ e^{\frac{-2 \pi j*1023*0}{1024}} e^{\frac{-2 \pi j*1023*1}{1024}} ... \ e^{\frac{-2 \pi j*1023*1023}{1024}} \ 0 \ 0 \ .. \ 0 \\
-		...\\
-		0 \ 0 \ .. \ 0 \ e^{\frac{-2 \pi j*0*0}{1024}} e^{\frac{-2 \pi j*0*1}{1024}} ... \ e^{\frac{-2 \pi j*0*1023}{1024}}\\
-		0 \ 0 \ .. \ 0 \ e^{\frac{-2 \pi j*1*0}{1024}} e^{\frac{-2 \pi j*1*1}{1024}} ... \ e^{\frac{-2 \pi j*1*1023}{1024}}\\
-		0 \ 0 \ .. \ 0 \ e^{\frac{-2 \pi j*1023*0}{1024}} e^{\frac{-2 \pi j*1023*1}{1024}} ... \ e^{\frac{-2 \pi j*1023*1023}{1024}}\\
-		\end{bmatrix}
+		\matr{0^{T}_{0}} \ \matr{DFT_{k}} \ \matr{0^{T}_{}}
+		
+		\end{bmatrix}_{M x}
 		\end{equation*}	
+		
+	\subsection{Hann Window}
+		Hann window is defined as $w(n) = sin^{2}(\frac{2 \pi n}{N - 1})$
 		
 
 	
