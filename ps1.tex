@@ -12,7 +12,7 @@
 	vec(\matr{a} \times \matr{b^{T}}) = b \otimes a
 	\end{equation*}
 
-	$\matr{a} \times \matr{b^{T}}$ would have 
+	$vec(\matr{a} \times \matr{b^{T}})$ would have copies of $\matr{a}$ weighted with each element of $\matr{b}$ appended at the bottom, resulting in       a column vector of size N*N. Since $\matr{a}$ is a column vector, the Kronecker product would result in same weighted copy in same shape.
 
 	\subsection{} % 1.b
 
@@ -40,8 +40,8 @@
 
 	\subsection{} % 1.c
 	$\matr{{x}^{T}} \matr{A} \matr{A}^{T} \matr{x}$ is equivalent to $\matr{(A^{T}x)^{T}}\matr{(A^{T}x)}$ which equals to 
-	norm of $\matr{(A^{T}x)}$. Which is always larger than 0. So, this is positive semi-definite.
-
+	norm of $\matr{(A^{T}x)}$. Which is always larger than or 0. So, this is positive semi-definite.
+	\newpage
 \section {Probability}
 	$P(B) = 0.7\%$\\
 	$P(M \mid B) = 90\%$\\
@@ -82,7 +82,7 @@
 		\\
 		4. Divide the transpose of the product by $\frac{M}{2} \times N$ to get the average.\\
 		\\
-		Cool. Let's define another matrix $\matr{Y}$.  \\
+		Let's define another matrix $\matr{Y}$.  \\
 		This matrix equals to $\matr{X} - \matr{X} \times \matr{[1]^{T}_{K}} \otimes  
 		\begin{bmatrix}
 		{\frac{1}{K} \ \frac{1}{K}}
@@ -93,31 +93,29 @@
 
 	\subsection{4D Tensor Version} % 3.2
 		\subsubsection{} % 3.2.a
-		We start with a 4D tensor with dimension of M X N 3 X K. Let's name this img. 
+		We start with a 4D tensor with dimension of M x N x 3 x K. Let's name this $\matr{img}$. 
 		We'll begin our series of operations with applying vec() on our tensor.\\
 
 		\begin{equation*}
-		\matr{A} = vec(img)
+		\matr{A} = vec(\matr{img})
 		\end{equation*}
 
-		Now vec(img) is going to return a A, a matrix of size (M X N X 3) by K. We are going to multiply this with K by 1 column vector of 1s. 
+		Now $vec(\matr{img})$ is going to return a A, a matrix of size (M X N X 3) by K. We are going to multiply this with K by 1 column vector of 1s. 
 		This would return sum of all images at their respective pixel and channel.
 
 		\begin{equation*}
 		\matr{V_{RGB}} = \matr{A} * 
 						\begin{bmatrix} 
-						1 \\ 1 \\ ... \\ K 
-						\end{bmatrix} 
+						1 \\ 1 \\ ... \\1  
+						\end{bmatrix}_{K} 
 		\end{equation*}	
 		
 		So now we have $\matr{V_{RGB}}$ which is a sum of all images at their respectivel pixel and channel. We need to reshape this so that
 		we have (M X N) by 3 matrix. This matrix would have M x N image but color-sorted in each column.  
 		We can then multiply by a column vector of 1s similar to what we did before to sum up each pixel over all color channels. \\
-		\\
-		We'll do this by using vec-transposing by M*N and then multiplying by a column of 1s with size of 3 by 1
-
+		
 		\begin{equation*}
-		\matr{V_{Greyscale}} = \matr{V_{RGB}}^{\{ M*N \}} * 
+		\matr{V_{Greyscale}} = \matr{V_{RGB}} *
 						\begin{bmatrix} 
 						1 \\ 1 \\ 1  
 						\end{bmatrix} 
@@ -130,7 +128,7 @@
 		\matr{V_{\mu}} = \matr{V_{Greyscale}} / (3*K) 
 		\end{equation*}	
 
-		We are done.
+		Vec-transposing this matrix by M would result in a mean image.
 
 		\subsubsection{} % 3.2.b
 	
@@ -140,38 +138,33 @@
 		\matr{A} = vec(img)
 		\end{equation*}
 
-		Again, vec(img) is going to return a A, a matrix of size (M X N X 3) by K. We are going to multiply this with K by 1 column vector of 1s. 
+		Again, $vec(\matr{img})$ is going to return a A, a matrix of size (M X N X 3) by K. We are going to multiply this with K by 1 column vector of 1s. 
 		This would return sum of all images at their respective pixel and channel.
 
 		\begin{equation*}
 		\matr{V_{RGB}} = \matr{A} * 
 						\begin{bmatrix} 
-						1 \\ 1 \\ ... \\ K 
-						\end{bmatrix} 
+						1 \\ 1 \\ ... \\ 1 
+						\end{bmatrix}_{K}
 		\end{equation*}	
 		
-		So now we have $\matr{V_{RGB}}$ which is a sum of all images at their respectivel pixel and channel. We'll transpose this so that
-		each column would have 
-	We need to reshape this so that
-		we have (M X N) by 3 matrix. This matrix would have M x N image but color-sorted in each column.  
-		We can then multiply by a column vector of 1s similar to what we did before to sum up each pixel over all color channels. \\
+		So now we have $\matr{V_{RGB}}$ which is a sum of all images at their respectivel pixel and channel. Vec-transpose this by (M x N), then have (M X N) by 3 matrix. This matrix would have M x N image but color-sorted in each column. \\
 		\\
-		We'll do this by using vec-transposing by M*N and then multiplying by a column of 1s with size of 3 by 1
-
+		This time we only want red, so let's multiply by column vector with 1,0,0 so that we only sum up red.
 		\begin{equation*}
-		\matr{V_{Greyscale}} = \matr{V_{RGB}}^{\{ M*N \}} * 
+		\matr{V_{Greyscale}} = \matr{V_{RGB}}^{M * N} * 
 						\begin{bmatrix} 
-						1 \\ 1 \\ 1  
+						1 \\ 0 \\ 0  
 						\end{bmatrix} 
 		\end{equation*}	
+		Divide this matrix by K would and vec-transposing by M would result in a mean image.
 		
-		//But we'll transpose the matrix, so all the red channel would be on one column. Blue on other and so on. 
 		
 \section{This problem was good}
 	We are given a vector X and we are supposed to come up with a matrix that when multiplied that returns a vec-operated coefficient matrix.\\
 	This is a two step process:\\
 	\\
-	1. We need to apply a Hann Window on each frame\\
+	1. We need to apply a Hann Window on each frame.\\
 	2. Calculate DFT coefficients.\\
 	\\
 	The number of frames we are going to get with an hop size of 512 and frame size of 2014 is ceiling of (Length of Sample - 1024) / 512 + 1.
@@ -182,5 +175,6 @@
 	To get the spectogram, we just vec-transpose our matrix by 1024. Throw away rows above 1024/2 + 1 since they are repeated and plot their absolute 		value.\\
 	\\
 	Following is my implementation of this idea with the complete DFT matrix and a sample spectogram of dense mixture of detuned saw waves, i.e. 			supersaw wave.
+
 
 	\end{document}
